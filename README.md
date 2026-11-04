@@ -1,0 +1,2 @@
+# AIcourse
+AIcourse projects
