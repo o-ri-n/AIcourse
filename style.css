@@ -1,0 +1,233 @@
+/* ===== 全体の設定 ===== */
+* {
+  box-sizing: border-box; /* 余白や枠線を含めた大きさで計算する(レイアウトが崩れにくくなる) */
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Arial, "Hiragino Sans", "Meiryo", sans-serif;
+  background-color: #2b6cb0; /* ボードの背景色(青) */
+  color: #333;
+}
+
+/* ===== ヘッダー ===== */
+.app-header {
+  padding: 16px 24px;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 20px;
+  color: #fff;
+}
+
+/* ===== ボード(3列を横に並べる入れ物) ===== */
+.board {
+  display: flex;        /* 中の列を横並びにする */
+  gap: 16px;            /* 列と列のすき間 */
+  align-items: flex-start;
+  padding: 24px;
+}
+
+/* ===== リスト(1つの列) ===== */
+.list {
+  width: 280px;
+  padding: 12px;
+  background-color: #ebecf0;
+  border-radius: 8px;
+}
+
+.list-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+/* ===== カード ===== */
+.cards {
+  display: flex;
+  flex-direction: column; /* カードを縦に並べる */
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.card {
+  padding: 10px 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== ドラッグ&ドロップ ===== */
+.card {
+  cursor: grab; /* つかめることを示す手のマーク */
+}
+
+/* ドラッグ中のカード: 半透明にして少し傾ける */
+.card.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+  cursor: grabbing;
+}
+
+/* ドロップできる列: 枠で強調する */
+.list.drag-over {
+  outline: 3px dashed #2b6cb0;
+  background-color: #dbe7f5;
+}
+
+/* 挿入位置の線(ドラッグ中だけ表示)。
+   レイアウトがずれないよう、box-shadow で描く */
+.card.drop-before {
+  /* カードの上(カードの間)に線。もとの影も残す */
+  box-shadow: 0 -4px 0 #2b6cb0, 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cards.drop-end {
+  /* 列の末尾(最後のカードの下)に線 */
+  box-shadow: 0 4px 0 #2b6cb0;
+}
+
+.cards.drop-end:empty {
+  /* カードがない列でも線が見えるよう、線を出している間だけ高さを持たせる */
+  min-height: 4px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ===== カードの編集・削除ボタン ===== */
+.card-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.move-left-button,
+.move-right-button,
+.edit-button,
+.delete-button {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f4f5f7;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.move-left-button:hover:not(:disabled),
+.move-right-button:hover:not(:disabled),
+.edit-button:hover {
+  background-color: #e2e4e9;
+}
+
+/* 押せないボタンは薄く表示する */
+.move-left-button:disabled,
+.move-right-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.delete-button {
+  color: #c53030; /* 削除は赤い文字で目立たせる */
+}
+
+.delete-button:hover {
+  background-color: #fed7d7;
+}
+
+/* ===== カード追加フォーム ===== */
+.add-form {
+  display: flex;
+  flex-wrap: wrap; /* 期限の行を2行目に回す */
+  gap: 6px;
+}
+
+/* 追加フォームの期限(任意)の行 */
+.add-due {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+}
+
+.add-due-input {
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* ===== カードの期限 ===== */
+.card-due {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #555;
+}
+
+.due-input {
+  padding: 2px 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.due-clear-button {
+  padding: 2px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f4f5f7;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.due-clear-button:hover {
+  background-color: #e2e4e9;
+}
+
+/* 期限切れのカード: 赤い左線・薄い赤の背景・赤い文字 */
+.card.overdue {
+  border-left: 4px solid #c53030;
+  background-color: #fff5f5;
+}
+
+.card.overdue .card-due,
+.card.overdue .due-input {
+  color: #c53030;
+}
+
+.due-status {
+  font-weight: bold;
+  color: #c53030;
+}
+
+.add-input {
+  flex: 1;              /* 余った幅を入力欄が使う */
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.add-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2b6cb0;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #245a94; /* マウスを乗せると少し濃くなる */
+}

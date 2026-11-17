@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タスク管理ボード</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>タスク管理ボード</h1>
+  </header>
+
+  <main class="board">
+    <!-- 列1: ToDo -->
+    <section class="list" data-list="todo">
+      <h2 class="list-title">ToDo</h2>
+      <!-- カードはJavaScriptがここに自動で表示します -->
+      <div class="cards"></div>
+      <form class="add-form">
+        <input type="text" class="add-input" placeholder="カードのタイトル">
+        <button type="submit" class="add-button">追加</button>
+        <label class="add-due">期限(任意)
+          <input type="date" class="add-due-input">
+        </label>
+      </form>
+    </section>
+
+    <!-- 列2: 進行中 -->
+    <section class="list" data-list="doing">
+      <h2 class="list-title">進行中</h2>
+      <div class="cards"></div>
+      <form class="add-form">
+        <input type="text" class="add-input" placeholder="カードのタイトル">
+        <button type="submit" class="add-button">追加</button>
+        <label class="add-due">期限(任意)
+          <input type="date" class="add-due-input">
+        </label>
+      </form>
+    </section>
+
+    <!-- 列3: 完了 -->
+    <section class="list" data-list="done">
+      <h2 class="list-title">完了</h2>
+      <div class="cards"></div>
+      <form class="add-form">
+        <input type="text" class="add-input" placeholder="カードのタイトル">
+        <button type="submit" class="add-button">追加</button>
+        <label class="add-due">期限(任意)
+          <input type="date" class="add-due-input">
+        </label>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
