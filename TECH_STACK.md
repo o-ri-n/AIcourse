@@ -11,7 +11,7 @@
 | JavaScript | カードの追加・編集・削除・移動、期限切れ判定、保存と読み込みなど、画面の動きを実装する | `script.js` |
 | localStorage(ブラウザ標準の保存機能) | カードのデータを、利用者のブラウザ内に保存する(キー名 `kanban-cards`)。詳細は [DATABASE_DESIGN.md](./DATABASE_DESIGN.md) | (ブラウザ) |
 | ブラウザ標準のダイアログ(`prompt` / `confirm`) | タイトル編集(D1)と削除確認(D2)に使う。詳細は [SCREEN_DESIGN.md](./SCREEN_DESIGN.md) | `script.js` |
-| ブラウザ標準のドラッグ&ドロップ機能 | カードをマウスでつかんで別の列へ移動する(F7) | `script.js` |
+| ブラウザ標準のドラッグ&ドロップ機能 | カードをマウスでつかんで、同じ列・別の列の好きな位置へ移動・並べ替える(F7) | `script.js` |
 
 ## 2. 構成
 
