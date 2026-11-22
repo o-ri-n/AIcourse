@@ -96,7 +96,7 @@ PostgreSQL に保存するだけでは、別の端末からデータは見えな
 | JDK | 21(LTS) | Spring Boot の実行 | 未導入 |
 | ビルドツール | Maven | Java の部品管理・ビルド | 未導入 |
 | Node.js | LTS 版 | Next.js / React の実行 | 未導入 |
-| PostgreSQL | 16 以降 | データベース | 未導入 |
+| PostgreSQL | 16 以降 | データベース | Docker で導入済み(`postgres:16`、2026-11-22 確認) |
 | Git | — | 履歴管理 | 導入済み |
 | エディタ | VS Code | 開発 | 要確認 |
 | 動作確認用 | ブラウザの開発者ツール、curl または Postman | API の確認 | 要確認 |
@@ -128,7 +128,7 @@ PostgreSQL に保存するだけでは、別の端末からデータは見えな
 |---|---|
 | ビルドツール | Maven か Gradle か |
 | フロントの言語 | JavaScript か TypeScript か |
-| PostgreSQL の導入方法 | 公式インストーラか Docker か |
+| PostgreSQL の導入方法 | **Docker(docker-compose.yml)に決定**(2026-11-22)。起動手順は [README.md](./README.md) |
 | 既存データの引き継ぎ | localStorage のデータを移行するか |
 | 別端末からの利用範囲 | 開発用パソコンのみ / LAN内 / インターネット公開のどれを目指すか |
 | 公開時の安全対策 | ログイン機能の要否(現行の要件にはない) |

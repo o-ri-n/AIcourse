@@ -1,0 +1,22 @@
+# ローカル開発用 PostgreSQL。パスワードは開発用の固定値であり、本番では使わない。
+services:
+  db:
+    image: postgres:16
+    container_name: kanban-db
+    environment:
+      POSTGRES_DB: kanban
+      POSTGRES_USER: kanban
+      POSTGRES_PASSWORD: kanban
+    ports:
+      # ホスト側ポートは DB_PORT で変更できる(コンテナ内は常に 5432)
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - kanban-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kanban -d kanban"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  kanban-db-data:
