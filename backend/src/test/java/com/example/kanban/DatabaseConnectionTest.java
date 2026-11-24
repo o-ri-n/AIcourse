@@ -35,4 +35,12 @@ class DatabaseConnectionTest {
 		assertThat(name).isEqualTo("kanban");
 	}
 
+	@Test
+	void canAccessCardsTable() {
+		Long count = jdbcTemplate.queryForObject(
+				"select count(*) from cards", Long.class);
+		assertThat(count).isNotNull();
+		assertThat(count).isGreaterThanOrEqualTo(0L);
+	}
+
 }

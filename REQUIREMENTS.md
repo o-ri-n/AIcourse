@@ -55,7 +55,7 @@
 | 形態 | Webページ(ブラウザで動く。専用のサーバーは使わない。使用する技術: HTML / CSS / JavaScript。詳細は [TECH_STACK.md](./TECH_STACK.md)) |
 | 画面 | 1画面。ToDo・進行中・完了の3つの列が横に並ぶ。各列にカードの追加欄(タイトル・期限)がある(詳細は [SCREEN_DESIGN.md](./SCREEN_DESIGN.md)) |
 | カードの情報 | ID(他と重ならない識別用の文字)、タイトル、所属する列、期限(任意) |
-| データの保存先 | 利用者自身のブラウザの中(localStorage という、ブラウザに備わった保存の仕組みを使う。詳細は [DATABASE_DESIGN.md](./DATABASE_DESIGN.md)) |
+| データの保存先 | 利用者自身のブラウザの中(localStorage という、ブラウザに備わった保存の仕組みを使う。詳細は [DATABASE_DESIGN.md](./DATABASE_DESIGN.md))。**現行アプリの範囲。** PostgreSQL への移行は準備中で、`cards` テーブルは作成済みだが現行アプリとは未連携(REST API・画面連携は未実装。[TECH_STACK.md](./TECH_STACK.md) 第2部) |
 
 **使い方の流れ(例)**
 
@@ -94,7 +94,7 @@
 - カードの説明文、ラベル(色タグ)、検索・絞り込み
 - 列の追加・名前変更・削除、複数ボード
 - ログイン、複数人での共有・同時編集、通知
-- サーバー・データベース
+- サーバー・データベース(現行アプリの範囲。PostgreSQL への移行は準備中で、移行時に見直す。[TECH_STACK.md](./TECH_STACK.md) 第2部)
 - スマートフォン・タブレット専用の最適化、ダークモード
 
 ### 現状の仕様上の制約
@@ -128,5 +128,5 @@
 |---|---|
 | [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md) | 機能要件(F1〜F9)・完了条件(受け入れ基準)・ユースケース |
 | [SCREEN_DESIGN.md](./SCREEN_DESIGN.md) | 画面設計(画面一覧・画面構成・画面項目) |
-| [DATABASE_DESIGN.md](./DATABASE_DESIGN.md) | データ保存方式(localStorage)・データ構造(ER図・データ定義) |
+| [DATABASE_DESIGN.md](./DATABASE_DESIGN.md) | データ保存方式(localStorage)・データ構造(ER図・データ定義)、PostgreSQL のテーブル設計(現行アプリとは未連携) |
 | [TECH_STACK.md](./TECH_STACK.md) | 使用技術とその役割 |

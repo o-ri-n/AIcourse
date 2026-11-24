@@ -25,7 +25,7 @@
 - 保守性: 構造(HTML)・見た目(CSS)・動き(JavaScript)の3つのファイルに分けて管理する。
 - 導入: インストール不要。`index.html` をブラウザで開くだけで使える。
 - フレームワーク・ライブラリ・ビルド作業: 使用していない(`index.html` が読み込むのは `style.css` と `script.js` のみ)。
-- データベース: 使用していない。
+- データベース: 使用していない(現行アプリ。PostgreSQL の `cards` テーブルは別途作成済みだが、現行アプリとは未連携。第2部を参照)。
 
 ## 3. 動作環境
 
@@ -46,7 +46,7 @@
 | Next.js | React を使いやすくする枠組み。ページの管理、開発用サーバー、公開用の変換(ビルド)を担う | 店の設計図 | `index.html`(ブラウザで直接開く方式) |
 | Java + Spring Boot | サーバー側のプログラム。REST API の提供、入力チェック(空のタイトルの拒否など)、データベースの読み書きを担う | 厨房 | なし(現行はブラウザ内で完結) |
 | REST API | 画面とサーバーが、HTTP(ウェブの通信の約束)と JSON(文字データの形式)でやり取りする方式。URL で対象を表し、GET・POST・PATCH・DELETE などの HTTP メソッド(操作の種類)で操作を区別する(例: 同じ `/api/cards` でも、GET は一覧の取得、POST は追加) | 注文票 | なし |
-| PostgreSQL | データを長期的に保存するデータベース。カードを `cards` テーブルに保存する予定 | 倉庫 | localStorage(キー名 `kanban-cards`) |
+| PostgreSQL | データを長期的に保存するデータベース。`cards` テーブルを作成済み(Spring Boot からの参照を確認済み)。現行アプリ・REST API からは未使用 | 倉庫 | localStorage(キー名 `kanban-cards`) |
 
 用語: **API** は、プログラム同士がやり取りするための窓口。**データベース**は、データを整理して保存し、探したり更新したりするための仕組み。
 
@@ -91,12 +91,12 @@ PostgreSQL に保存するだけでは、別の端末からデータは見えな
 
 ## 7. 開発環境の予定【予定】
 
-| 道具 | 候補 | 用途 | 現在の導入状況(2026-11-21 確認) |
+| 道具 | 候補・採用 | 用途 | 現在の導入状況(2026-11-24 確認) |
 |---|---|---|---|
-| JDK | 21(LTS) | Spring Boot の実行 | 未導入 |
-| ビルドツール | Maven | Java の部品管理・ビルド | 未導入 |
-| Node.js | LTS 版 | Next.js / React の実行 | 未導入 |
-| PostgreSQL | 16 以降 | データベース | Docker で導入済み(`postgres:16`、2026-11-22 確認) |
+| JDK | 25(LTS)。`backend/build.gradle.kts` が Java 25 を指定 | Spring Boot の実行 | 導入済み(`java -version`: Eclipse Temurin 25.0.5.1) |
+| ビルドツール | **Gradle**(Gradle Wrapper。Spring Boot 4.0.10) | Java の部品管理・ビルド | 導入済み(`./gradlew --version`: Gradle 9.9.2) |
+| Node.js | LTS 版 | Next.js / React の実行 | 未導入(`node` コマンドが見つからない) |
+| PostgreSQL | 16 以降 | データベース | Docker で導入済み(`postgres:16`、PostgreSQL 16.16。コンテナ `kanban-db`) |
 | Git | — | 履歴管理 | 導入済み |
 | エディタ | VS Code | 開発 | 要確認 |
 | 動作確認用 | ブラウザの開発者ツール、curl または Postman | API の確認 | 要確認 |
@@ -107,26 +107,26 @@ PostgreSQL に保存するだけでは、別の端末からデータは見えな
 
 各段階で動作を確認してから、次へ進む。
 
-| Step | 内容 | 確認方法 |
-|---|---|---|
-| 0 | 設計の確定(API の一覧、データベースの表の案、見直す文書の範囲) | 設計書のレビュー |
-| 1 | 環境構築(JDK・Node.js・PostgreSQL を導入) | 各バージョンの表示、データベースへの接続 |
-| 2 | Spring Boot の雛形を作成し、データベースへ接続 | アプリが起動し、接続エラーが出ない |
-| 3 | REST API を実装(一覧 → 追加 → 編集・移動 → 削除 → 並べ替え) | curl で、正常な場合と異常な場合(空のタイトルなど)を確認 |
-| 4 | Next.js の雛形を作成し、API と通信 | 画面から API の応答を取得できる |
-| 5 | 画面を移植(表示 → 追加 → 編集・削除 → 矢印移動 → 期限 → ドラッグ&ドロップ) | 機能ごとに、現行アプリと挙動を比較 |
-| 6 | 現行の localStorage のデータを引き継ぐか判断(任意) | 判断結果の記録 |
-| 7 | 受け入れ確認 | [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md) の No.1〜29 を新アプリで実施 |
-| 8 | 関連文書の更新(REQUIREMENTS / DATABASE_DESIGN / README)と、現行アプリの扱いの決定 | 文書の整合確認 |
+| Step | 内容 | 確認方法 | 状況(2026-11-24 時点) |
+|---|---|---|---|
+| 0 | 設計の確定(API の一覧、データベースの表の案、見直す文書の範囲) | 設計書のレビュー | テーブル設計は済([DATABASE_DESIGN.md](./DATABASE_DESIGN.md) の「4.」)。API の一覧は未作成 |
+| 1 | 環境構築(JDK・Node.js・PostgreSQL を導入) | 各バージョンの表示、データベースへの接続 | JDK・PostgreSQL は済。Node.js は未導入 |
+| 2 | Spring Boot の雛形を作成し、データベースへ接続 | アプリが起動し、接続エラーが出ない | 済(接続テスト、`cards` テーブルの参照テストが成功) |
+| 3 | REST API を実装(一覧 → 追加 → 編集・移動 → 削除 → 並べ替え) | curl で、正常な場合と異常な場合(空のタイトルなど)を確認 | 一部。`cards` テーブルの作成と参照確認のみ済。**REST API は未実装** |
+| 4 | Next.js の雛形を作成し、API と通信 | 画面から API の応答を取得できる | 未着手 |
+| 5 | 画面を移植(表示 → 追加 → 編集・削除 → 矢印移動 → 期限 → ドラッグ&ドロップ) | 機能ごとに、現行アプリと挙動を比較 | 未着手 |
+| 6 | 現行の localStorage のデータを引き継ぐか判断(任意) | 判断結果の記録 | 未着手 |
+| 7 | 受け入れ確認 | [FUNCTIONAL_REQUIREMENTS.md](./FUNCTIONAL_REQUIREMENTS.md) の No.1〜29 を新アプリで実施 | 未着手 |
+| 8 | 関連文書の更新(REQUIREMENTS / DATABASE_DESIGN / README)と、現行アプリの扱いの決定 | 文書の整合確認 | 一部(DB層の状況を各文書に反映)。REST API・画面連携後に再更新する |
 
-- **フォルダ配置案**: 現行のファイルは移動せず、`backend/`(Spring Boot)と `frontend/`(Next.js)を新しく作って並べる。
-- データベースの表の詳細(並び順を保存する `position` 列が新たに必要になる、など)と API の詳細は、別の設計書で扱う。本書には書かない。
+- **フォルダ配置案**: 現行のファイルは移動せず、`backend/`(Spring Boot)と `frontend/`(Next.js)を新しく作って並べる。`backend/` は作成済み。`frontend/` は未作成。
+- データベースの表の設計(並び順を保存する `position` 列を含む)は、[DATABASE_DESIGN.md](./DATABASE_DESIGN.md) の「4.」に記載した。API の詳細は未作成で、別の設計書で扱う。本書には書かない。
 
 ## 9. 未決事項(要確認)【予定】
 
 | 項目 | 内容 |
 |---|---|
-| ビルドツール | Maven か Gradle か |
+| ビルドツール | **Gradle に決定**(実装済みの `backend/build.gradle.kts` に合わせた) |
 | フロントの言語 | JavaScript か TypeScript か |
 | PostgreSQL の導入方法 | **Docker(docker-compose.yml)に決定**(2026-11-22)。起動手順は [README.md](./README.md) |
 | 既存データの引き継ぎ | localStorage のデータを移行するか |
