@@ -12,6 +12,14 @@ GitHub CLI pull request practice
 - [TECH_STACK.md](./TECH_STACK.md) — 使用技術とその役割
 - [db/schema.sql](./db/schema.sql) — PostgreSQL の `cards` テーブルを作成する SQL(手動で実行する)
 
+## 開発の運用ルール
+
+開発は「Issue → ブランチ → Pull Request → `main` へマージ」の順に進める。`main` への直接の変更は行わない。
+
+- [CLAUDE.md](./CLAUDE.md) — ブランチ・Issue・コミット・テストなどの開発ルール
+- [Issue テンプレート](./.github/ISSUE_TEMPLATE/task.md) — Issue を作成するときの形式
+- [Pull Request テンプレート](./.github/pull_request_template.md) — Pull Request を作成するときの形式
+
 ## 現在の状況(2026-11-24 の動作確認終了時点)
 
 - 画面(`index.html`)は、引き続き **localStorage** にデータを保存する。PostgreSQL は使っていない。
